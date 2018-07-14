@@ -44,55 +44,55 @@ model_3.fit(X_train_std,y)
 i=0
 get=True
 while get:
-print("Get Sample.")
-#send 1 to arduino to send current readings
-arduino.write(b"1")
-time.sleep(5)
-line=arduino.readline()
-
-#if it's empty loop till it get readings
-while line==temp:
-	print(line)
+	print("Get Sample.")
+	#send 1 to arduino to send current readings
 	arduino.write(b"1")
-	time.sleep(3)
+	time.sleep(5)
 	line=arduino.readline()
 
-#print readings
-#print(line)
-sep= line.split()
-new_data={
-'Thumb': [float(sep[0])],
-'Index': [float(sep[1])],
-'Middle': [float(sep[2])],
-'Ring': [float(sep[3])],
-'Pinky': [float(sep[4])],
-'X': [int(sep[5])],
-'Y': [int(sep[6])]
-}
-print(new_data);
-
-print("Predicted Label:")
-test= pd.DataFrame.from_dict(new_data)
-X_test_std = std_scale.transform(test)
-
-#predict output
-predictions_1 = model_1.predict(X_test_std)
-predictions_3 = model_3.predict(X_test_std)
-print("RandomForest: ",predictions_1)
-tts = gTTS(text=str(predictions_1), lang='ar')
-file1 = str("hello" + str(i) + ".mp3")
-tts.save(file1)
-playsound(file1,True)
-os.remove(file1)
-i=i+1
-
-print("DecisionTree: ",predictions_3)
-tts = gTTS(text=str(predictions_3), lang='ar')
-file1 = str("hello" + str(i) + ".mp3")
-tts.save(file1)
-playsound(file1,True)
-os.remove(file1)
-i=i+1
-
-#get correct output
-curr=input("correct Lable: ")
+	#if it's empty loop till it get readings
+	while line==temp:
+		print(line)
+		arduino.write(b"1")
+		time.sleep(3)
+		line=arduino.readline()
+	
+	#print readings
+	#print(line)
+	sep= line.split()
+	new_data={
+	'Thumb': [float(sep[0])],
+	'Index': [float(sep[1])],
+	'Middle': [float(sep[2])],
+	'Ring': [float(sep[3])],
+	'Pinky': [float(sep[4])],
+	'X': [int(sep[5])],
+	'Y': [int(sep[6])]
+	}
+	print(new_data);
+	
+	print("Predicted Label:")
+	test= pd.DataFrame.from_dict(new_data)
+	X_test_std = std_scale.transform(test)
+	
+	#predict output
+	predictions_1 = model_1.predict(X_test_std)
+	predictions_3 = model_3.predict(X_test_std)
+	print("RandomForest: ",predictions_1)
+	tts = gTTS(text=str(predictions_1), lang='ar')
+	file1 = str("hello" + str(i) + ".mp3")
+	tts.save(file1)
+	playsound(file1,True)
+	os.remove(file1)
+	i=i+1
+	
+	print("DecisionTree: ",predictions_3)
+	tts = gTTS(text=str(predictions_3), lang='ar')
+	file1 = str("hello" + str(i) + ".mp3")
+	tts.save(file1)
+	playsound(file1,True)
+	os.remove(file1)
+	i=i+1
+	
+	#get correct output
+	curr=input("correct Lable: ")
